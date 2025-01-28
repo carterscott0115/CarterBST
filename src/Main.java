@@ -11,6 +11,7 @@ public class Main {
         System.out.println(bst.remove(51));
         System.out.println(bst.contains(75));
         System.out.println(bst.getMin());
+        System.out.println(bst.isValidBST());
         System.out.println();
     }
 

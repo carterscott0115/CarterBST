@@ -3,7 +3,6 @@ import java.util.List;
 
 public class BinarySearchTree<T extends Comparable<T>> {
     private Node searchTree;
-
     /**
      * Insert a new value into the BST
      * @param value The value to insert
@@ -183,7 +182,25 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public int getSize() {
         // TODO: Implement size calculation
-        return 0;
+        int counter = 0;
+        Node currentNode = searchTree;
+        return sink(currentNode, counter);
+    }
+
+    public int sink(Node n, int count) {
+        count++;
+        int counter;
+        if(n.getLeftChild() != null) {
+            n = n.getLeftChild();
+            counter = sink(n, count);
+            return counter;
+        }
+        if(n.getRightChild() != null) {
+            n = n.getRightChild();
+            counter = sink(n, count);
+            return counter;
+        }
+            return count;
     }
 
     /**
@@ -195,7 +212,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
           return true;
       }
       else {
-          return true;
+          return false;
       }
     }
 
@@ -208,6 +225,25 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     //Should return true if adheres to BST rules, false if otherwise
     public boolean isValidBST() {
-        return false;
+        Node node = searchTree;
+        return valid(node);
+
+    }
+    public boolean valid(Node node) {
+        if(node.getLeftChild() != null) {
+            node = node.getLeftChild();
+            valid(node);
+            if(node.getLeftChild() != null && node.getLeftChild().getValue().compareTo(node.getValue()) > 0) {
+                return false;
+            }
+        }
+        if(node.getRightChild() != null) {
+            node = node.getRightChild();
+            valid(node);
+            if(node.getLeftChild() != null && node.getLeftChild().getValue().compareTo(node.getValue()) < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
