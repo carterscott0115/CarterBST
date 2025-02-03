@@ -53,6 +53,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         while(currentNode.getRightChild() != null || currentNode.getLeftChild() != null) {
 
             if(currentNode.getRightChild().getValue().equals(value)) {
+
                 currentNode.setRightChild(null);
                 return true;
             }
@@ -143,9 +144,19 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public List<T> inorderTraversal() {
         List<T> result = new ArrayList<>();
-        // TODO: Implement inorder traversal
+        return inorderHelper(searchTree, result);
+    }
+
+    private List<T> inorderHelper(Node node, List<T> result) {
+        if (node == null) {
+            return null;
+        }
+        inorderHelper(node.getLeftChild(), result);
+        result.add((T) node.getValue());
+        inorderHelper(node.getRightChild(), result);
         return result;
     }
+
 
     /**
      * Perform a preorder traversal of the BST
@@ -153,7 +164,16 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public List<T> preorderTraversal() {
         List<T> result = new ArrayList<>();
-        // TODO: Implement preorder traversal
+        return preorderHelper(searchTree, result);
+    }
+
+    private List<T> preorderHelper(Node node, List<T> result) {
+        if (node == null) {
+            return null;
+        }
+        result.add((T) node.getValue());
+        preorderHelper(node.getLeftChild(), result);
+        preorderHelper(node.getRightChild(), result);
         return result;
     }
 
@@ -163,7 +183,16 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public List<T> postorderTraversal() {
         List<T> result = new ArrayList<>();
-        // TODO: Implement postorder traversal
+        return postorderHelper(searchTree, result);
+    }
+
+    private List<T> postorderHelper(Node node, List<T> result) {
+        if (node == null) {
+            return null;
+        };
+        postorderHelper(node.getLeftChild(), result);
+        postorderHelper(node.getRightChild(), result);
+        result.add((T) node.getValue());
         return result;
     }
 
@@ -173,9 +202,27 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public int getHeight() {
         // TODO: Implement height calculation
-        return -1;
+        int counter = 0;
+        Node currentNode = searchTree;
+        return sinkII(currentNode, counter);
+
     }
 
+    public int sinkII(Node n, int count) {
+        if(n.getLeftChild() != null) {
+            n = n.getLeftChild();
+            count++;
+            sinkII(n, count);
+            System.out.println("count increased left side!");
+        }
+        if(n.getRightChild() != null) {
+            n = n.getLeftChild();
+            count++;
+            sinkII(n, count);
+            System.out.println("count increased right side!");
+        }
+        return count;
+    }
     /**
      * Get the size (number of nodes) in the BST
      * @return The total number of nodes
